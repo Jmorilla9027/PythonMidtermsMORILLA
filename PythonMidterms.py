@@ -1,6 +1,6 @@
 FILE_NAME = "sales_log.txt"
 def display_menu():
-    print("========================================")
+    print("\n========================================")
     print("       SALES RECORD MANAGEMENT SYSTEM")
     print("========================================")
     print("1. Add Sale Record")
@@ -9,29 +9,14 @@ def display_menu():
     print("4. Exit System")
     print("========================================")
 
-def main():
-    while True:
-        display_menu()
-        choice = input("Select an option (1-4): ")
-
-        if choice == "1":
-            add_sale_record()
-
-        elif choice == "2":
-            print("placeholder")
-
-        elif choice == "3":
-            clear_sales_data()
-
-        elif choice == "4":
-            print("Thank you for using the Sales Record Management System.")
-            break
-
-        else:
-            print("Invalid option. Please select a number from 1 to 4.")
-
 def add_sale_record():
-    item_name = input("Enter item name: ")
+    print("\n--- Add Sale Record ---")
+
+    item_name = input("Enter item name: ").strip()
+
+    if not item_name:
+        print("Item name cannot be empty.")
+        return
 
     try:
         quantity = int(input("Enter quantity sold: "))
@@ -40,7 +25,7 @@ def add_sale_record():
             print("Quantity cannot be negative.")
             return
     except ValueError:
-        print("Invalid quantity. Please enter a digit")
+        print("Invalid quantity. Please enter a whole number.")
         return
 
     try:
@@ -56,29 +41,17 @@ def add_sale_record():
     total_amount = quantity * price_per_unit
 
     try:
-        with open(FILE_NAME, "a") as file:
+        with open(FILE_NAME, "a", encoding="utf-8") as file:
             file.write(
-                f"{item_name},{quantity},{price_per_unit:.},"
-                f"{total_amount}"
+                f"{item_name},{quantity},{price_per_unit:.2f},"
+                f"{total_amount:.2f}\n"
             )
 
         print("Sale record saved successfully.")
 
-    except:
-        print("Error saving the sale record:")
+    except OSError as error:
+        print(f"Error saving the sale record: {error}")
 
-def clear_sales_data():
-    try:
-        with open(FILE_NAME, "w"):
-            pass
-
-        print("All records cleared. No records remaining.")
-
-    except:
-        print("Error clearing sales data:")
-
-if __name__ == "__main__":
-    main()
 
 def view_records():
     print("\n--- All Sales Records ---")
@@ -88,7 +61,7 @@ def view_records():
     records_found = False
 
     try:
-        with open(FILE_NAME, "r",) as file:
+        with open(FILE_NAME, "r", encoding="utf-8") as file:
             for line in file:
                 line = line.strip()
 
@@ -123,8 +96,8 @@ def view_records():
         print("No records found.")
         return
 
-    except:
-        print("Error reading the sales file:")
+    except OSError as error:
+        print(f"Error reading the sales file: {error}")
         return
 
     if not records_found:
@@ -136,62 +109,44 @@ def view_records():
     print("========================================")
     print(f"Total Units Sold: {total_units}")
     print(f"Grand Total Revenue: {grand_total_revenue:.2f}")
-def view_records():
-    print("\n--- All Sales Records ---")
-
-    total_units = 0
-    grand_total_revenue = 0.0
-    records_found = False
 
 
+def clear_sales_data():
     try:
-        with open(FILE_NAME, "r",) as file:
-            for line in file:
-                line = line.strip()
+        with open(FILE_NAME, "w", encoding="utf-8"):
+            pass
 
-                if not line:
-                    continue
+        print("All records cleared. No records remaining.")
 
-                record = line.split(",")
-
-                if len(record) != 4:
-                    print("Warning: Invalid record skipped.")
-                    continue
-
-                try:
-                    item_name = record[0]
-                    quantity = int(record[1])
-                    price_per_unit = float(record[2])
-                    total_amount = float(record[3])
-
-                    # Display the current record.
-                    print(f"\nItem Name: {item_name}")
-                    print(f"Quantity Sold: {quantity}")
-                    print(f"Price Per Unit: {price_per_unit:.2f}")
-                    print(f"Total Amount: {total_amount:.2f}")
+    except OSError as error:
+        print(f"Error clearing sales data: {error}")
 
 
-                    total_units += quantity
-                    grand_total_revenue += total_amount
-                    records_found = True
+def main():
+    while True:
+        display_menu()
 
-                except ValueError:
-                    print("Warning: Invalid data in record. Skipped.")
+        choice = input("Select an option (1-4): ").strip()
 
-    except FileNotFoundError:
-        print("No records found.")
-        return
+        if choice == "1":
+            add_sale_record()
 
-    except :
-        print("Error reading the sales file")
-        return
+        elif choice == "2":
+            view_records()
 
-    if not records_found:
-        print("No records found.")
-        return
+        elif choice == "3":
+            clear_sales_data()
 
-    print("========================================")
-    print("          SUMMARY STATISTICS")
-    print("========================================")
-    print(f"Total Units Sold: {total_units}")
-    print(f"Grand Total Revenue: {grand_total_revenue}")
+        elif choice == "4":
+            print(
+                "Thank you for using the Sales Record Management System."
+            )
+            break
+
+        else:
+            print("Invalid option. Please select a number from 1 to 4.")
+
+
+# Start the program.
+if __name__ == "__main__":
+    main()
