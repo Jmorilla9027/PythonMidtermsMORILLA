@@ -9,9 +9,7 @@ def display_menu():
     print("========================================")
 
 def add_sale_record():
-    print("\n--- Add Sale Record ---")
-
-    item_name = input("Enter item name: ").strip()
+    item_name = input("Enter item name: ")
 
     if not item_name:
         print("Item name cannot be empty.")
@@ -24,8 +22,36 @@ def add_sale_record():
             print("Quantity cannot be negative.")
             return
     except ValueError:
-        print("Invalid quantity. Please enter a whole number.")
+        print("Invalid quantity. Please enter a digit")
         return
+
+    try:
+        price_per_unit = float(input("Enter price per unit: "))
+
+        if price_per_unit < 0:
+            print("Price cannot be negative.")
+            return
+    except ValueError:
+        print("Invalid price. Please enter a number.")
+        return
+
+    # Calculate the total transaction amount.
+    total_amount = quantity * price_per_unit
+
+    # Append the new sale record to the file.
+    try:
+        with open(sales_log.txt, "a") as file:
+            file.write(
+                f"{item_name},{quantity},{price_per_unit:.2f},"
+                f"{total_amount:.2f}\n"
+            )
+
+        print("Sale record saved successfully.")
+
+    except OSError as error:
+        print(f"Error saving the sale record: {error}")
+
+
 if choice == "1":
     itemName = input("Enter Item Name:")
     quantitySold = int(input("Enter Item Quantity Sold: "))
