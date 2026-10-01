@@ -35,21 +35,17 @@ def add_sale_record():
         print("Invalid price. Please enter a number.")
         return
 
-    # Calculate the total transaction amount.
     total_amount = quantity * price_per_unit
 
-    # Append the new sale record to the file.
     try:
         with open(sales_log.txt, "a") as file:
             file.write(
-                f"{item_name},{quantity},{price_per_unit:.2f},"
-                f"{total_amount:.2f}\n"
+                f"{item_name},{quantity},{price_per_unit},"
+                f"{total_amount:}\n"
             )
 
-        print("Sale record saved successfully.")
-
-    except OSError as error:
-        print(f"Error saving the sale record: {error}")
+    except OSError:
+        print("Error saving the sale record")
 
 
 if choice == "1":
