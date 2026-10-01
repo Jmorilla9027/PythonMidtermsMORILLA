@@ -8,6 +8,27 @@ def display_menu():
     print("4. Exit System")
     print("========================================")
 
+def main():
+    while True:
+        display_menu()
+        choice = input("Select an option (1-4): ")
+
+        if choice == "1":
+            add_sale_record()
+
+        elif choice == "2":
+
+        elif choice == "3":
+
+        elif choice == "4":
+            print(
+                "Thank you for using the Sales Record Management System."
+            )
+            break
+
+        else:
+            print("Invalid option. Please select a number from 1 to 4.")
+
 def add_sale_record():
     item_name = input("Enter item name: ")
 
@@ -38,14 +59,16 @@ def add_sale_record():
     total_amount = quantity * price_per_unit
 
     try:
-        with open(sales_log.txt, "a") as file:
+        with open(sales_log, "a") as file:
             file.write(
-                f"{item_name},{quantity},{price_per_unit},"
-                f"{total_amount:}\n"
+                f"{item_name},{quantity},{price_per_unit:.},"
+                f"{total_amount}"
             )
 
-    except OSError:
-        print("Error saving the sale record")
+        print("Sale record saved successfully.")
+
+    except:
+        print("Error saving the sale record:")
 
 
 if choice == "1":
