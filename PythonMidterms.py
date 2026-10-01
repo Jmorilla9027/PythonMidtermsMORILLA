@@ -81,23 +81,20 @@ if __name__ == "__main__":
     main()
 
 def view_records():
-    """Display all sales records and calculate summary statistics."""
     print("\n--- All Sales Records ---")
 
     total_units = 0
     grand_total_revenue = 0.0
     records_found = False
 
-    # Try to open and read the sales log.
     try:
-        with open(FILE_NAME, "r", encoding="utf-8") as file:
+        with open(FILE_NAME, "r",) as file:
             for line in file:
                 line = line.strip()
 
                 if not line:
                     continue
 
-                # Split each CSV record into its four fields.
                 record = line.split(",")
 
                 if len(record) != 4:
@@ -110,13 +107,11 @@ def view_records():
                     price_per_unit = float(record[2])
                     total_amount = float(record[3])
 
-                    # Display the current record.
                     print(f"\nItem Name: {item_name}")
                     print(f"Quantity Sold: {quantity}")
                     print(f"Price Per Unit: {price_per_unit:.2f}")
                     print(f"Total Amount: {total_amount:.2f}")
 
-                    # Accumulate summary statistics.
                     total_units += quantity
                     grand_total_revenue += total_amount
                     records_found = True
@@ -128,11 +123,10 @@ def view_records():
         print("No records found.")
         return
 
-    except OSError as error:
-        print(f"Error reading the sales file: {error}")
+    except:
+        print("Error reading the sales file:")
         return
 
-    # Display summary only when valid records exist.
     if not records_found:
         print("No records found.")
         return
@@ -143,23 +137,21 @@ def view_records():
     print(f"Total Units Sold: {total_units}")
     print(f"Grand Total Revenue: {grand_total_revenue:.2f}")
 def view_records():
-    """Display all sales records and calculate summary statistics."""
     print("\n--- All Sales Records ---")
 
     total_units = 0
     grand_total_revenue = 0.0
     records_found = False
 
-    # Try to open and read the sales log.
+
     try:
-        with open(FILE_NAME, "r", encoding="utf-8") as file:
+        with open(FILE_NAME, "r",) as file:
             for line in file:
                 line = line.strip()
 
                 if not line:
                     continue
 
-                # Split each CSV record into its four fields.
                 record = line.split(",")
 
                 if len(record) != 4:
@@ -178,7 +170,7 @@ def view_records():
                     print(f"Price Per Unit: {price_per_unit:.2f}")
                     print(f"Total Amount: {total_amount:.2f}")
 
-                    # Accumulate summary statistics.
+
                     total_units += quantity
                     grand_total_revenue += total_amount
                     records_found = True
@@ -190,17 +182,16 @@ def view_records():
         print("No records found.")
         return
 
-    except OSError as error:
-        print(f"Error reading the sales file: {error}")
+    except :
+        print("Error reading the sales file")
         return
 
-    # Display summary only when valid records exist.
     if not records_found:
         print("No records found.")
         return
 
-    print("\n========================================")
+    print("========================================")
     print("          SUMMARY STATISTICS")
     print("========================================")
     print(f"Total Units Sold: {total_units}")
-    print(f"Grand Total Revenue: {grand_total_revenue:.2f}")
+    print(f"Grand Total Revenue: {grand_total_revenue}")
